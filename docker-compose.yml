@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  onnet_cabinet:
+    container_name: onnet_cabinet
+    build:
+      context: ./onnet_cabinet
+      dockerfile: Dockerfile
+    command: fastapi run --host 0.0.0.0 --port 8000
+    volumes:
+      - static_volume_lk:/home/onnet_cabinet/app/static
+    networks:
+      - virtual-network
+    depends_on:
+      - onnet_web
+
+  onnet_web:
+    container_name: onnet_web
+    build:
+      context: ./onnet_web
+      dockerfile: Dockerfile
+    command: gunicorn run:app -k gevent -b 0.0.0.0:8001 --worker-connections 1000 -w 1
+    volumes:
+      - static_volume:/home/onnet/app/static
+    networks:
+      - virtual-network
+  
+  nginx:
+    container_name: proxy_nginx
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    volumes:
+      - static_volume:/home/onnet/app/static
+      - static_volume_lk:/home/onnet_cabinet/app/static
+    ports:
+      - 8081:8081
+      - 8080:8080
+    networks:
+      - virtual-network
+    depends_on:
+      - onnet_cabinet
+
+volumes:
+  static_volume:
+  static_volume_lk:
+
+networks:
+  virtual-network:
+    driver: bridge
