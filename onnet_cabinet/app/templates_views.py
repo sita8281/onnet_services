@@ -3,8 +3,7 @@ from fastapi import Request, Response, Form
 from fastapi.responses import RedirectResponse
 from .auth import auth_protect, auth_protect_redirect, auth_login, logout_response
 from typing import Dict, Annotated
-from app.deil_api.deil_async_api import BaseAPI
-from app.deil_api.exceptions import AuthFailed
+from app.billing_api.exceptions import AuthFailed
 from .config import Config
 
 

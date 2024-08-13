@@ -1,8 +1,8 @@
 from functools import wraps
 from fastapi import HTTPException, Request
 from fastapi.responses import RedirectResponse
-import app.deil_api.exceptions as deil_api_exc
-from app.deil_api.deil_async_api import BaseAPI
+import app.billing_api.exceptions as deil_api_exc
+from app.billing_api.billing_async_api import BaseAPI
 from cryptography.fernet import Fernet
 from base64 import urlsafe_b64encode
 from .config import Config

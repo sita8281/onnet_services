@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Request
-from app.deil_api.deil_async_api import BaseAPI
+from app.billing_api.billing_async_api import BaseAPI
 from .auth import auth_protect
 from .config import Config
 
